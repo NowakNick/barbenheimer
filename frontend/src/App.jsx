@@ -6,12 +6,14 @@ import Home from "./views/Home";
 import Create from "./views/Create";
 import Edit from "./views/Edit";
 import NotFound from "./views/NotFound";
+import { getMedia, getSingleMedia } from "./axios";
 
 // Define Routs
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
+    loader: getMedia,
   },
   {
     path: "/create",
@@ -20,6 +22,7 @@ const router = createBrowserRouter([
   {
     path: "/edit/:id",
     element: <Edit />,
+    loader: getSingleMedia,
   },
   {
     path: "*",
