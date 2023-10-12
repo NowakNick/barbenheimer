@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 
 // Components
+import Navbar from "./components/navbar";
 
 class App extends Component {
   state = {};
   render() {
     return (
       <React.Fragment>
-        <h1>Setup complete</h1>
+        <Navbar />
       </React.Fragment>
     );
   }
