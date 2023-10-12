@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Navbar from "../components/navbar";
 import MediaList from "../components/mediaList";
+import { NavLink } from "react-router-dom";
 
 class Home extends Component {
   state = {
@@ -39,14 +40,10 @@ class Home extends Component {
               Search
             </button>
           </div>
-          <button
-            onClick={() => this.onAdd()}
-            className="btn btn-primary col-2"
-            type="button"
-          >
+          <NavLink className="btn btn-primary col-2" type="button" to="create">
             <i className="bi bi-plus"></i>
             Upload
-          </button>
+          </NavLink>
         </div>
         <MediaList className="" data={this.state.data} />
       </div>

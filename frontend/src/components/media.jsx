@@ -1,12 +1,8 @@
 import React, { Component } from "react";
+import { NavLink } from "react-router-dom";
 
 class Media extends Component {
   state = {};
-
-  onEdit = (id) => {
-    //TODO: redirect to / open edit page/dialog
-    console.log("Button click -> Edit " + id);
-  };
 
   onDelete = (id) => {
     //TODO: send delete request and if return = true then refresh Data
@@ -26,13 +22,13 @@ class Media extends Component {
             <h5 className="card-title">{this.props.data.name}</h5>
             <p className="card-text">{this.props.data.type}</p>
             <div className="d-grid gap-2 d-flex justify-content-between">
-              <button
-                onClick={() => this.onEdit(this.props.data.id)}
+              <NavLink
                 className="btn btn-primary px-3"
                 type="button"
+                to={"/edit/" + this.props.data.id}
               >
                 Edit
-              </button>
+              </NavLink>
               <button
                 onClick={() => this.onDelete(this.props.data.id)}
                 className="btn btn-danger px-3"

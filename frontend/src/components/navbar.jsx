@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { NavLink } from "react-router-dom";
 
 class Navbar extends Component {
   state = {};
@@ -6,7 +7,7 @@ class Navbar extends Component {
     return (
       <nav className="navbar bg-body-tertiary">
         <div className="container-fluid">
-          <a className="navbar-brand" href="/">
+          <NavLink className="navbar-brand" to="/">
             <img
               src="favicon.ico"
               alt="Logo"
@@ -15,7 +16,7 @@ class Navbar extends Component {
               className="d-inline-block me-2"
             />
             <span className="align-text-top">Barbenheimer</span>
-          </a>
+          </NavLink>
         </div>
       </nav>
     );
