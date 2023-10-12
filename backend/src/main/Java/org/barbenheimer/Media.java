@@ -5,17 +5,26 @@ import java.util.Objects;
 
 public class Media {
 
-    private String name;
-    private List<String> tags;
     private String id;
-    private String media;
+    private String name;
     private String date;
+    private String media;
+    private List<String> tags;
 
     public Media() {
     }
 
-    public Media(String name, String description) {
+    public Media(String name,
+                 String id,
+                 String date,
+                 String media,
+                 List<String> tags) {
+
         this.name = name;
+        this.id = id;
+        this.date = date;
+        this.media = media;
+        this.tags = tags;
     }
 
     public String getName() {
@@ -24,6 +33,14 @@ public class Media {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     @Override
@@ -48,5 +65,21 @@ public class Media {
 
     public String getId() {
         return id;
+    }
+
+    public String getMedia() {
+        return media;
+    }
+
+    public void setMedia(String media) {
+        this.media = media;
+    }
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
     }
 }

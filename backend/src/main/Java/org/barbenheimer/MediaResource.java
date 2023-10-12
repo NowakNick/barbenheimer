@@ -7,20 +7,22 @@ import jakarta.ws.rs.Path;
 
 import java.util.List;
 
-@Path("/media")
+@Path("")
 public class MediaResource {
 
     @Inject
     MediaService mediaService;
 
+    @Path("getMedia")
     @GET
-    public List<Media> list() {
-        return mediaService.list();
+    public List<Media> getMedia() {
+        return mediaService.getMedia();
     }
 
+    @Path("addMedia")
     @POST
-    public List<Media> add(Media media) {
-        mediaService.add(media);
-        return list();
+    public List<Media> addMedia(Media media) {
+        mediaService.addMedia(media);
+        return getMedia();
     }
 }

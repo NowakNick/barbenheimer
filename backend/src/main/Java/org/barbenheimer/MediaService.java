@@ -15,7 +15,7 @@ public class MediaService {
     @Inject
     MongoClient mongoClient;
 
-    public List<Media> list() {
+    public List<Media> getMedia() {
         List<Media> list = new ArrayList<>();
         MongoCursor<Document> cursor = getCollection().find().iterator();
 
@@ -24,6 +24,10 @@ public class MediaService {
                 Document document = cursor.next();
                 Media media = new Media();
                 media.setName(document.getString("name"));
+                media.setId(document.getString("id"));
+                media.setDate(document.getString("date"));
+                media.setMedia(document.getString("media"));
+                media.setTags((List<String>) document.get("tags"));
                 list.add(media);
             }
         } finally {
@@ -32,9 +36,12 @@ public class MediaService {
         return list;
     }
 
-    public void add(Media media) {
+    public void addMedia(Media media) {
         Document document = new Document()
-                .append("name", media.getName());
+                .append("name", media.getName())
+                .append("date", media.getDate())
+                .append("media", media.getMedia())
+                .append("tags", media.getTags());
         getCollection().insertOne(document);
     }
 
