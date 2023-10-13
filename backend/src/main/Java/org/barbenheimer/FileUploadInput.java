@@ -1,7 +1,6 @@
 package org.barbenheimer;
 
 import jakarta.ws.rs.FormParam;
-import org.jboss.resteasy.annotations.providers.multipart.PartType;
 
 import java.io.File;
 import java.util.List;
