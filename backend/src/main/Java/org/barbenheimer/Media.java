@@ -1,5 +1,7 @@
 package org.barbenheimer;
 
+import org.bson.types.Binary;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -9,22 +11,15 @@ public class Media {
     private String name;
     private String date;
     private String media;
-    private List<String> tags;
+    //private List<String> tags;
 
     public Media() {
     }
 
-    public Media(String name,
-                 String id,
-                 String date,
-                 String media,
-                 List<String> tags) {
-
+    public Media(String name, String date, String media) {
         this.name = name;
-        this.id = id;
         this.date = date;
         this.media = media;
-        this.tags = tags;
     }
 
     public String getName() {
@@ -75,11 +70,11 @@ public class Media {
         this.media = media;
     }
 
-    public List<String> getTags() {
+    /*public List<String> getTags() {
         return tags;
     }
 
     public void setTags(List<String> tags) {
         this.tags = tags;
-    }
+    }*/
 }
