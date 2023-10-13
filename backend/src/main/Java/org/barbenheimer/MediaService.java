@@ -5,12 +5,11 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import org.bson.BSONObject;
 import org.bson.Document;
-import org.jboss.resteasy.reactive.MultipartForm;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -32,7 +31,7 @@ public class MediaService {
                 media.setId(document.get("_id").toString());
                 media.setDate(document.getString("date"));
                 media.setMedia(document.getString("media"));
-                //media.setTags((List<String>) document.get("tags"));
+                media.setTags((List<String>) document.get("tags"));
                 list.add(media);
             }
         } finally {
@@ -41,7 +40,7 @@ public class MediaService {
         return list;
     }
 
-    public void addMedia(@MultipartForm FileUploadInput input) throws Exception{
+    public void addMedia(FileUploadInput input) throws IOException{
         File file = new File(input.file.getAbsolutePath());
         FileInputStream fl = new FileInputStream(file);
         byte[] arr = new byte[(int) file.length()];
@@ -49,11 +48,11 @@ public class MediaService {
         fl.close();
         String encodedString = Base64.getEncoder().encodeToString(arr);
 
-
         Document document = new Document()
                 .append("name", input.name)
+                .append("date", input.date)
                 .append("media", encodedString)
-                .append("date", input.date);
+                .append("tags", input.tags);
         getCollection().insertOne(document);
     }
 

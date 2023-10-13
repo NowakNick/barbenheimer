@@ -11,7 +11,7 @@ public class Media {
     private String name;
     private String date;
     private String media;
-    //private List<String> tags;
+    private List<String> tags;
 
     public Media() {
     }
@@ -70,11 +70,11 @@ public class Media {
         this.media = media;
     }
 
-    /*public List<String> getTags() {
+    public List<String> getTags() {
         return tags;
     }
 
     public void setTags(List<String> tags) {
         this.tags = tags;
-    }*/
+    }
 }

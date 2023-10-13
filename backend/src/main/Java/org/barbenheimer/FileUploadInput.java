@@ -1,21 +1,21 @@
 package org.barbenheimer;
 
-import jakarta.ws.rs.FormParam;
+import org.jboss.resteasy.reactive.RestForm;
 
 import java.io.File;
 import java.util.List;
 
 public class FileUploadInput {
 
-    @FormParam("name")
+    @RestForm("name")
     public String name;
 
-    @FormParam("file")
+    @RestForm("file")
     public File file;
 
-    @FormParam("date")
+    @RestForm("date")
     public String date;
 
-    @FormParam("tags")
+    @RestForm("tags")
     public List<String> tags;
 }
