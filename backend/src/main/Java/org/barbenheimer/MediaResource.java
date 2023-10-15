@@ -6,7 +6,6 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.MediaType;
-import org.jboss.resteasy.reactive.MultipartForm;
 import org.jboss.resteasy.reactive.ResponseStatus;
 
 import java.io.IOException;
@@ -22,7 +21,7 @@ public class MediaResource {
     @Path("addMedia")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @ResponseStatus(200)
-    public void addMedia(@MultipartForm FileUploadInput input) throws IOException {
+    public void addMedia(FileUploadInput input) throws IOException {
         mediaService.addMedia(input);
     }
 
