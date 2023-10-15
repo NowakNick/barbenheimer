@@ -15,21 +15,13 @@ export default function Create() {
     { value: "5", label: "Others" },
   ];
 
-  const typeOptions = [
-    { value: "1", label: "Image" },
-    { value: "2", label: "Video" },
-    { value: "3", label: "Text" },
-    { value: "4", label: "Others" },
-  ];
-
   const [isAlertVisible, setAlertVisible] = useState(false);
   const [name, setName] = useState("");
   const [tags, setTags] = useState([]);
-  const [type, setType] = useState(0);
   const [file, setFile] = useState(null);
 
   async function onCreate() {
-    if (name === "" || tags.length === 0 || type === 0 || !file) {
+    if (name === "" || tags.length === 0 || !file) {
       setAlertVisible(true);
       return;
     } else {
@@ -37,16 +29,20 @@ export default function Create() {
       const formData = new FormData();
 
       // Update the formData object
-      formData.append("file", file);
       formData.append("name", name);
+      formData.append("media", file);
+      formData.append("date", new Date().toString());
       formData.append(
         "tags",
         tags.map((item) => parseInt(item.value, 10))
       );
-      formData.append("media", parseInt(type.value, 10));
 
-      console.log(formData);
+      formData.forEach((key, value) => {
+        console.log(value + ": " + key);
+      });
+
       if (await addMedia(formData)) {
+        console.log("Upload Done!");
         navigate("/");
       } else {
         //TODO: Make warning
@@ -106,20 +102,6 @@ export default function Create() {
               setTags(e);
             }}
             value={tags}
-          />
-        </div>
-
-        <div className="col-12 col-md-8 col-xl-6">
-          <label htmlFor="Media Type">Media Type</label>
-          <Select
-            id="mediaType"
-            name="mediaType"
-            options={typeOptions}
-            onChange={(e) => {
-              setType(e);
-            }}
-            required
-            value={type}
           />
         </div>
 

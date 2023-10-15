@@ -7,7 +7,7 @@ const dev = false; // false -> uses backend calls, true -> uses json-server call
 
 // Get all medias
 export const getMedia = async () => {
-  const res = await axios.get(baseURL + (dev ? "media" : "getMedia"));
+  const res = await axios.get(baseURL + (dev ? "/media" : "/getMedia"));
   return res.data;
 };
 
@@ -15,7 +15,7 @@ export const getMedia = async () => {
 export const getSingleMedia = async ({ params }) => {
   const { id } = params;
   const res = await axios.get(
-    baseURL + (dev ? "media/" : "getSingleMedia/") + id
+    baseURL + (dev ? "/media/" : "/getSingleMedia/") + id
   );
   return res.data;
 };
@@ -23,7 +23,7 @@ export const getSingleMedia = async ({ params }) => {
 // add media
 export const addMedia = async (formData) => {
   const res = await axios.post(
-    baseURL + (dev ? "media" : "addMedia"),
+    baseURL + (dev ? "/media" : "/addMedia"),
     formData
   );
   return res.data;
@@ -32,7 +32,7 @@ export const addMedia = async (formData) => {
 // Delete media
 export const deleteMedia = async (id) => {
   const res = await axios.delete(
-    baseURL + (dev ? "media/" : "deleteMedia/") + id
+    baseURL + (dev ? "/media/" : "/deleteMedia/") + id
   );
   return res.data;
 };
@@ -40,7 +40,7 @@ export const deleteMedia = async (id) => {
 // Update media
 export const updateMedia = async (id, formData) => {
   const res = await axios.patch(
-    baseURL + (dev ? "media/" : "updateMedia/") + id,
+    baseURL + (dev ? "/media/" : "/updateMedia/") + id,
     formData
   );
   return res.data;
