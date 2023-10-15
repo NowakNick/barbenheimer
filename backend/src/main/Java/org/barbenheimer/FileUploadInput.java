@@ -17,5 +17,5 @@ public class FileUploadInput {
     public String date;
 
     @RestForm("tags")
-    public List<String> tags;
+    public List<Integer> tags;
 }

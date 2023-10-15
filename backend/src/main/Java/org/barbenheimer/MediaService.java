@@ -31,7 +31,7 @@ public class MediaService {
                 media.setId(document.get("_id").toString());
                 media.setDate(document.getString("date"));
                 media.setMedia(document.getString("media"));
-                media.setTags((List<String>) document.get("tags"));
+                media.setTags((List<Integer>) document.get("tags"));
                 list.add(media);
             }
         } finally {
