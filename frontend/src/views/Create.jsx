@@ -30,7 +30,7 @@ export default function Create() {
 
       // Update the formData object
       formData.append("name", name);
-      formData.append("media", file);
+      formData.append("file", file);
       formData.append("date", new Date().toString());
       formData.append(
         "tags",
