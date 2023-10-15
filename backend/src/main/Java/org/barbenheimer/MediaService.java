@@ -41,9 +41,8 @@ public class MediaService {
     }
 
     public void addMedia(FileUploadInput input) throws IOException{
-        File file = new File(input.file.getAbsolutePath());
-        FileInputStream fl = new FileInputStream(file);
-        byte[] arr = new byte[(int) file.length()];
+        FileInputStream fl = new FileInputStream(input.file);
+        byte[] arr = new byte[(int) input.file.length()];
         fl.read(arr);
         fl.close();
         String encodedString = Base64.getEncoder().encodeToString(arr);
