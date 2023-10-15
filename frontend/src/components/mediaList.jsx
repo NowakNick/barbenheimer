@@ -6,7 +6,7 @@ class MediaList extends Component {
   render() {
     if (this.props.data.length !== 0) {
       return (
-        <div className="media-container row mt-0 g-4 px-4">
+        <div className="row mt-0 g-4 px-4">
           {this.props.data.map((item) => (
             <Media key={item.id} data={item} />
           ))}

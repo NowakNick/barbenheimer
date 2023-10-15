@@ -15,8 +15,15 @@ export default function Home() {
   return (
     <div className="home">
       <Navbar />
-      <div className="row justify-content-between mt-3 mx-5">
-        <div className="d-flex col-4">
+      <div className="header-container mt-3 mx-5 justify-content-between">
+        <h1>Media Storage</h1>
+        <NavLink className="btn btn-primary col-2" type="button" to="create">
+          <i className="bi bi-plus"></i>
+          Upload
+        </NavLink>
+      </div>
+      <div className="row justify-content-start mt-3 mx-3">
+        <div className="d-flex col-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
           <input
             className="form-control me-2"
             type="search"
@@ -32,10 +39,6 @@ export default function Home() {
             Search
           </button>
         </div>
-        <NavLink className="btn btn-primary col-2" type="button" to="create">
-          <i className="bi bi-plus"></i>
-          Upload
-        </NavLink>
       </div>
       <MediaList data={mediaData} />
     </div>
