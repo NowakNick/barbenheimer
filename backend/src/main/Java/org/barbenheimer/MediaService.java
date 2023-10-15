@@ -41,8 +41,9 @@ public class MediaService {
     }
 
     public void addMedia(FileUploadInput input) throws IOException{
-        FileInputStream fl = new FileInputStream(input.file);
-        byte[] arr = new byte[(int) input.file.length()];
+        File file = new File(input.file.filePath().toString());
+        FileInputStream fl = new FileInputStream(file);
+        byte[] arr = new byte[(int) file.length()];
         fl.read(arr);
         fl.close();
         String encodedString = Base64.getEncoder().encodeToString(arr);
@@ -51,6 +52,7 @@ public class MediaService {
                 .append("name", input.name)
                 .append("date", input.date)
                 .append("media", encodedString)
+                .append("content-type", input.file.contentType())
                 .append("tags", input.tags);
         getCollection().insertOne(document);
     }
