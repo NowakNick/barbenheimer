@@ -1,0 +1,32 @@
+{
+  "media": [
+    {
+      "name": "Another Image",
+      "tags": [2, 3],
+      "media": 1,
+      "file": {},
+      "id": 2
+    },
+    {
+      "name": "File Test",
+      "tags": [1],
+      "media": 1,
+      "file": {},
+      "id": 3
+    },
+    {
+      "name": "asdf",
+      "tags": [2],
+      "media": 2,
+      "file": {},
+      "id": 4
+    },
+    {
+      "name": "Testing new change",
+      "tags": [1, 3],
+      "media": 3,
+      "file": {},
+      "id": 5
+    }
+  ]
+}
