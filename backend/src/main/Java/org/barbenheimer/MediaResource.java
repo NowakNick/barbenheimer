@@ -34,13 +34,13 @@ public class MediaResource {
     }
 
     @DELETE
-    @Path("deleteMedia")
+    @Path("deleteMedia/{id}")
     public RestResponse deleteMedia(String id){
         return mediaService.deleteMedia(id);
     }
 
     @PUT
-    @Path("updateMedia")
+    @Path("updateMedia/{id}")
     public RestResponse updateMedia(String id,FileUploadInput input){
         return mediaService.updateMedia(id,input);
     }
