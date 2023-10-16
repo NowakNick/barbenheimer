@@ -40,7 +40,6 @@ export default function Create() {
         "tags",
         tags.map((item) => parseInt(item.value, 10))
       );
-      formData.append("media", parseInt(media.value, 10));
 
       if (await addMedia(formData)) {
         console.log("Upload Done!");
