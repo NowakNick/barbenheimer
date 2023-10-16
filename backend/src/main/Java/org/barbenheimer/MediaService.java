@@ -3,6 +3,7 @@ package org.barbenheimer;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
+import com.mongodb.client.model.Filters;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.bson.Document;
@@ -55,6 +56,15 @@ public class MediaService {
                 .append("content-type", input.file.contentType())
                 .append("tags", input.tags);
         getCollection().insertOne(document);
+    }
+
+    public boolean deleteMedia(String id){
+        try{
+            getCollection().findOneAndDelete(Filters.eq("id",id));
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
 
     private MongoCollection getCollection() {

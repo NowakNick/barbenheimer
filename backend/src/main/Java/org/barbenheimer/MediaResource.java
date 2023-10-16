@@ -31,7 +31,7 @@ public class MediaResource {
     @DELETE
     @Path("deleteMedia")
     public boolean deleteMedia(String id){
-        return false;
+        return mediaService.deleteMedia(id);
     }
 }
 
