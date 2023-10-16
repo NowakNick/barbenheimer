@@ -3,7 +3,7 @@ package org.barbenheimer;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
-import org.jboss.resteasy.reactive.ResponseStatus;
+import org.jboss.resteasy.reactive.RestResponse;
 
 import java.io.IOException;
 import java.util.List;
@@ -17,15 +17,20 @@ public class MediaResource {
     @POST
     @Path("addMedia")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    @ResponseStatus(200)
-    public void addMedia(FileUploadInput input) throws IOException {
-        mediaService.addMedia(input);
+    public RestResponse addMedia(FileUploadInput input) throws IOException {
+        return mediaService.addMedia(input);
     }
 
     @GET
     @Path("getMedia")
     public List<Media> getMedia() {
         return mediaService.getMedia();
+    }
+
+    @GET
+    @Path("getSingleMedia/{id}")
+    public List<Media> getSingleMedia(String id) {
+        return mediaService.getSingleMedia(id);
     }
 
     @DELETE
