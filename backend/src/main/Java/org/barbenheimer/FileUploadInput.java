@@ -10,8 +10,8 @@ public class FileUploadInput {
     @RestForm("name")
     public String name;
 
-    @RestForm("file")
-    public FileUpload file;
+    @RestForm("media")
+    public FileUpload media;
 
     @RestForm("date")
     public String date;

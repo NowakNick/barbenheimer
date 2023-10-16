@@ -15,17 +15,21 @@ export default function Create() {
     { value: "5", label: "Others" },
   ];
 
-  const [isAlertVisible, setAlertVisible] = useState(false);
+  const [alert, setAlert] = useState({ isVisible: false, msg: "" });
   const [name, setName] = useState("");
   const [tags, setTags] = useState([]);
   const [file, setFile] = useState(null);
 
   async function onCreate() {
     if (name === "" || tags.length === 0 || !file) {
-      setAlertVisible(true);
+      setAlert({
+        ...alert,
+        isVisible: true,
+        msg: "Please fill out every form element!",
+      });
       return;
     } else {
-      setAlertVisible(false);
+      setAlert({ ...alert, isVisible: false });
       const formData = new FormData();
 
       // Update the formData object
@@ -36,10 +40,7 @@ export default function Create() {
         "tags",
         tags.map((item) => parseInt(item.value, 10))
       );
-
-      formData.forEach((key, value) => {
-        console.log(value + ": " + key);
-      });
+      formData.append("media", parseInt(type.value, 10));
 
       if (await addMedia(formData)) {
         console.log("Upload Done!");
@@ -47,6 +48,11 @@ export default function Create() {
       } else {
         //TODO: Make warning
         console.log("Upload Failed!");
+        setAlert({
+          ...alert,
+          isVisible: true,
+          msg: "Upload has failed, please try again!",
+        });
       }
     }
   }
@@ -65,13 +71,13 @@ export default function Create() {
         </button>
       </div>
 
-      {isAlertVisible && (
+      {alert.isVisible && (
         <div
           id="formIncompleteAlert"
           className="alert alert-danger mx-5"
           role="alert"
         >
-          Please fill out every form element!
+          {alert.msg}
         </div>
       )}
 
@@ -86,6 +92,7 @@ export default function Create() {
             value={name}
             onChange={(e) => {
               setName(e.target.value);
+              setAlert({ ...alert, isVisible: false });
             }}
             required
           />
@@ -100,6 +107,7 @@ export default function Create() {
             isMulti
             onChange={(e) => {
               setTags(e);
+              setAlert({ ...alert, isVisible: false });
             }}
             value={tags}
           />
@@ -114,6 +122,7 @@ export default function Create() {
             name="mediaFile"
             onChange={(e) => {
               setFile(e.target.files[0]);
+              setAlert({ ...alert, isVisible: false });
             }}
             required
           />
