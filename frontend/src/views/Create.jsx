@@ -18,10 +18,10 @@ export default function Create() {
   const [alert, setAlert] = useState({ isVisible: false, msg: "" });
   const [name, setName] = useState("");
   const [tags, setTags] = useState([]);
-  const [file, setFile] = useState(null);
+  const [media, setMedia] = useState(null);
 
   async function onCreate() {
-    if (name === "" || tags.length === 0 || !file) {
+    if (name === "" || tags.length === 0 || !media) {
       setAlert({
         ...alert,
         isVisible: true,
@@ -34,13 +34,13 @@ export default function Create() {
 
       // Update the formData object
       formData.append("name", name);
-      formData.append("file", file);
+      formData.append("media", media);
       formData.append("date", new Date().toString());
       formData.append(
         "tags",
         tags.map((item) => parseInt(item.value, 10))
       );
-      formData.append("media", parseInt(type.value, 10));
+      formData.append("media", parseInt(media.value, 10));
 
       if (await addMedia(formData)) {
         console.log("Upload Done!");
@@ -121,7 +121,7 @@ export default function Create() {
             id="mediaFile"
             name="mediaFile"
             onChange={(e) => {
-              setFile(e.target.files[0]);
+              setMedia(e.target.files[0]);
               setAlert({ ...alert, isVisible: false });
             }}
             required
