@@ -85,12 +85,12 @@ public class MediaService {
         }
     }
 
-    public boolean deleteMedia(String id){
+    public RestResponse deleteMedia(String id){
         try{
             getCollection().findOneAndDelete(Filters.eq("id",id));
-            return true;
+            return RestResponse.status(200);
         }catch (Exception e){
-            return false;
+            return RestResponse.status(400);
         }
     }
 

@@ -35,7 +35,7 @@ public class MediaResource {
 
     @DELETE
     @Path("deleteMedia")
-    public boolean deleteMedia(String id){
+    public RestResponse deleteMedia(String id){
         return mediaService.deleteMedia(id);
     }
 }
