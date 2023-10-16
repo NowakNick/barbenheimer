@@ -37,10 +37,6 @@ export default function Create() {
         tags.map((item) => parseInt(item.value, 10))
       );
 
-      formData.forEach((key, value) => {
-        console.log(value + ": " + key);
-      });
-
       if (await addMedia(formData)) {
         console.log("Upload Done!");
         navigate("/");
@@ -86,6 +82,7 @@ export default function Create() {
             value={name}
             onChange={(e) => {
               setName(e.target.value);
+              setAlertVisible(false);
             }}
             required
           />
@@ -100,6 +97,7 @@ export default function Create() {
             isMulti
             onChange={(e) => {
               setTags(e);
+              setAlertVisible(false);
             }}
             value={tags}
           />
@@ -114,6 +112,7 @@ export default function Create() {
             name="mediaFile"
             onChange={(e) => {
               setFile(e.target.files[0]);
+              setAlertVisible(false);
             }}
             required
           />
