@@ -38,11 +38,11 @@ public class Media {
         this.date = date;
     }
 
-    public void setContentType(String contentType) {
-        this.contentType = contentType;
+    public String getContentType() {
+        return contentType;
     }
 
-    public void getContentType(String contentType) {
+    public void setContentType(String contentType) {
         this.contentType = contentType;
     }
 
