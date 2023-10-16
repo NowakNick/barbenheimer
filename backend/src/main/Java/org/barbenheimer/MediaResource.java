@@ -1,10 +1,7 @@
 package org.barbenheimer;
 
 import jakarta.inject.Inject;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import org.jboss.resteasy.reactive.ResponseStatus;
 
@@ -29,6 +26,12 @@ public class MediaResource {
     @Path("getMedia")
     public List<Media> getMedia() {
         return mediaService.getMedia();
+    }
+
+    @DELETE
+    @Path("deleteMedia")
+    public boolean deleteMedia(String id){
+        return false;
     }
 }
 
