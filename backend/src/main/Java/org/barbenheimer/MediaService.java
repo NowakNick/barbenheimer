@@ -44,16 +44,16 @@ public class MediaService {
         return list;
     }
 
-    public RestResponse addMedia(FileUploadInput input) throws IOException{
+    public RestResponse addMedia(FileUploadInput input) throws IOException {
         String encodedString;
-        if(input.file != null){
-            File file = new File(input.file.filePath().toString());
+        if (input.media != null) {
+            File media = new File(input.media.filePath().toString());
             FileInputStream fl = new FileInputStream(file);
-            byte[] arr = new byte[(int) file.length()];
+            byte[] arr = new byte[(int) media.length()];
             fl.read(arr);
             fl.close();
             encodedString = Base64.getEncoder().encodeToString(arr);
-        }else{
+        } else {
             return RestResponse.status(400);
         }
 
@@ -61,7 +61,7 @@ public class MediaService {
                 .append("name", input.name)
                 .append("date", input.date)
                 .append("media", encodedString)
-                .append("content-type", input.file.contentType())
+                .append("content-type", input.media.contentType())
                 .append("tags", input.tags);
         InsertOneResult insertId = getCollection().insertOne(document);
         document.append("id", insertId.getInsertedId().asObjectId().getValue().toString());
@@ -86,50 +86,45 @@ public class MediaService {
         }
     }
 
-    public RestResponse deleteMedia(String id){
-        try{
-            getCollection().findOneAndDelete(Filters.eq("id",id));
+    public RestResponse deleteMedia(String id) {
+        try {
+            getCollection().findOneAndDelete(Filters.eq("id", id));
             return RestResponse.status(200);
-        }catch (Exception e){
+        } catch (Exception e) {
             return RestResponse.status(400);
         }
     }
 
-    public RestResponse updateMedia(String id,FileUploadInput input){
-        try{
+    public RestResponse updateMedia(String id, FileUploadInput input) {
+        try {
             String encodedString;
-            if(input.file != null){
-                File file = new File(input.file.filePath().toString());
-                FileInputStream fl = new FileInputStream(file);
-                byte[] arr = new byte[(int) file.length()];
+            if (input.media != null) {
+                File media = new File(input.media.filePath().toString());
+                FileInputStream fl = new FileInputStream(media);
+                byte[] arr = new byte[(int) media.length()];
                 fl.read(arr);
                 fl.close();
                 encodedString = Base64.getEncoder().encodeToString(arr);
-            }else{
+            } else {
                 return RestResponse.status(400);
             }
             getCollection().findOneAndUpdate(Filters.eq(
-                    "id",id),
-                    Updates.set("name",input.name)
-                    );
+                    "id", id),
+                    Updates.set("name", input.name));
             getCollection().findOneAndUpdate(Filters.eq(
-                            "id",id),
-                    Updates.set("media",encodedString)
-            );
+                    "id", id),
+                    Updates.set("media", encodedString));
             getCollection().findOneAndUpdate(Filters.eq(
-                            "id",id),
-                    Updates.set("date",input.date)
-            );
+                    "id", id),
+                    Updates.set("date", input.date));
             getCollection().findOneAndUpdate(Filters.eq(
-                            "id",id),
-                    Updates.set("tags",input.tags)
-            );
+                    "id", id),
+                    Updates.set("tags", input.tags));
             getCollection().findOneAndUpdate(Filters.eq(
-                            "id",id),
-                    Updates.set("content-type",input.file.contentType())
-            );
+                    "id", id),
+                    Updates.set("content-type", input.media.contentType()));
             return RestResponse.status(200);
-        }catch (IOException e){
+        } catch (IOException e) {
             return RestResponse.status(400);
         }
     }
