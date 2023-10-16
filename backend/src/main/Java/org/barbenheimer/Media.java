@@ -1,7 +1,5 @@
 package org.barbenheimer;
 
-import org.bson.types.Binary;
-
 import java.util.List;
 import java.util.Objects;
 
