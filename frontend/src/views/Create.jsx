@@ -34,7 +34,9 @@ export default function Create() {
 
       // Update the formData object
       formData.append("name", name);
+      formData.append("name", name);
       formData.append("file", file);
+      formData.append("date", new Date().toString());
       formData.append("date", new Date().toString());
       formData.append(
         "tags",
@@ -42,6 +44,7 @@ export default function Create() {
       );
 
       if (await addMedia(formData)) {
+        console.log("Upload Done!");
         console.log("Upload Done!");
         navigate("/");
       } else {
