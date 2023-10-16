@@ -47,9 +47,9 @@ public class MediaService {
     public RestResponse addMedia(FileUploadInput input) throws IOException {
         String encodedString;
         if (input.media != null) {
-            File media = new File(input.media.filePath().toString());
+            File file = new File(input.media.filePath().toString());
             FileInputStream fl = new FileInputStream(file);
-            byte[] arr = new byte[(int) media.length()];
+            byte[] arr = new byte[(int) file.length()];
             fl.read(arr);
             fl.close();
             encodedString = Base64.getEncoder().encodeToString(arr);
@@ -100,9 +100,9 @@ public class MediaService {
         try {
             String encodedString;
             if (input.media != null) {
-                File media = new File(input.media.filePath().toString());
-                FileInputStream fl = new FileInputStream(media);
-                byte[] arr = new byte[(int) media.length()];
+                File file = new File(input.media.filePath().toString());
+                FileInputStream fl = new FileInputStream(file);
+                byte[] arr = new byte[(int) file.length()];
                 fl.read(arr);
                 fl.close();
                 encodedString = Base64.getEncoder().encodeToString(arr);
