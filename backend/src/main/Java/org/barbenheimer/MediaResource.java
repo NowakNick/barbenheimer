@@ -42,7 +42,7 @@ public class MediaResource {
     @PUT
     @Path("updateMedia")
     public RestResponse updateMedia(String id,FileUploadInput input){
-        return null;
+        return mediaService.updateMedia(id,input);
     }
 }
 
