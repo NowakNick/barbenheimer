@@ -4,6 +4,7 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
+import com.mongodb.client.model.Updates;
 import com.mongodb.client.result.InsertOneResult;
 import com.mongodb.client.model.Filters;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -90,6 +91,45 @@ public class MediaService {
             getCollection().findOneAndDelete(Filters.eq("id",id));
             return RestResponse.status(200);
         }catch (Exception e){
+            return RestResponse.status(400);
+        }
+    }
+
+    public RestResponse updateMedia(String id,FileUploadInput input){
+        try{
+            String encodedString;
+            if(input.file != null){
+                File file = new File(input.file.filePath().toString());
+                FileInputStream fl = new FileInputStream(file);
+                byte[] arr = new byte[(int) file.length()];
+                fl.read(arr);
+                fl.close();
+                encodedString = Base64.getEncoder().encodeToString(arr);
+            }else{
+                return RestResponse.status(400);
+            }
+            getCollection().findOneAndUpdate(Filters.eq(
+                    "id",id),
+                    Updates.set("name",input.name)
+                    );
+            getCollection().findOneAndUpdate(Filters.eq(
+                            "id",id),
+                    Updates.set("media",encodedString)
+            );
+            getCollection().findOneAndUpdate(Filters.eq(
+                            "id",id),
+                    Updates.set("date",input.date)
+            );
+            getCollection().findOneAndUpdate(Filters.eq(
+                            "id",id),
+                    Updates.set("tags",input.tags)
+            );
+            getCollection().findOneAndUpdate(Filters.eq(
+                            "id",id),
+                    Updates.set("content-type",input.file.contentType())
+            );
+            return RestResponse.status(200);
+        }catch (IOException e){
             return RestResponse.status(400);
         }
     }
