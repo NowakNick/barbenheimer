@@ -77,6 +77,7 @@ public class MediaService {
                 media.setName(document.getString("name"));
                 media.setId(document.get("_id").toString());
                 media.setDate(document.getString("date"));
+                media.setContentType(document.getString("content-type"));
                 media.setMedia(document.getString("media"));
                 media.setTags((List<Integer>) document.get("tags"));
                 list.add(media);
