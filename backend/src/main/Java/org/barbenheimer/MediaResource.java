@@ -29,6 +29,12 @@ public class MediaResource {
     public List<Media> getMedia() {
         return mediaService.getMedia();
     }
+
+    @GET
+    @Path("getSingleMedia/{id}")
+    public List<Media> getSingleMedia(String id) {
+        return mediaService.getSingleMedia(id);
+    }
 }
 
 
