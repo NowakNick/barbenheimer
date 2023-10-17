@@ -89,7 +89,9 @@ public class MediaService {
 
     public RestResponse deleteMedia(String id) {
         try {
-            getCollection().findOneAndDelete(Filters.eq("id", id));
+            BasicDBObject query = new BasicDBObject();
+            query.put("_id", new ObjectId(id));
+            getCollection().findOneAndDelete(Filters.eq("id", query));
             return RestResponse.status(200);
         } catch (Exception e) {
             return RestResponse.status(400);
