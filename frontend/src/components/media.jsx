@@ -24,6 +24,32 @@ export default function Media(props) {
       });
   };
 
+  function onDownload() {
+    // Decode the base64 data to a Uint8Array
+    const binaryString = window.atob(props.data.media);
+    const bytes = new Uint8Array(binaryString.length);
+
+    for (let i = 0; i < binaryString.length; i++) {
+      bytes[i] = binaryString.charCodeAt(i);
+    }
+
+    // Create a Blob from the Uint8Array
+    const blob = new Blob([bytes], { type: props.data.contentType });
+
+    // Create a URL for the Blob
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = props.data.mediaName;
+
+    // Trigger a click on the anchor element to start the download
+    a.click();
+
+    // Remove resource afterwards
+    URL.revokeObjectURL(url);
+  }
+
   return (
     <div className="media-item col-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
       <div className="card">
@@ -36,13 +62,20 @@ export default function Media(props) {
           <h5 className="card-title">{props.data.name}</h5>
           <p className="card-text">{props.data.type}</p>
           <div className="d-grid gap-2 d-flex justify-content-between">
-            <NavLink
+            {/* <NavLink
               className="btn btn-primary px-3"
               type="button"
               to={"/edit/" + props.data.id}
             >
               Edit
-            </NavLink>
+            </NavLink> */}
+            <button
+              onClick={onDownload}
+              className="btn btn-secondary px-3"
+              type="button"
+            >
+              <i className="bi bi-download"></i>
+            </button>
             <button
               onClick={onDelete}
               className="btn btn-danger px-3"

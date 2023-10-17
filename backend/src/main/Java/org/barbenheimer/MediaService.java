@@ -62,6 +62,7 @@ public class MediaService {
                 .append("date", input.date)
                 .append("media", encodedString)
                 .append("content-type", input.media.contentType())
+                .append("media-name", input.media.fileName())
                 .append("tags", input.tags);
         InsertOneResult insertId = getCollection().insertOne(document);
         document.append("id", insertId.getInsertedId().asObjectId().getValue().toString());
@@ -78,6 +79,7 @@ public class MediaService {
                 media.setId(document.get("_id").toString());
                 media.setDate(document.getString("date"));
                 media.setContentType(document.getString("content-type"));
+                media.setMediaName(document.getString("media-name"));
                 media.setMedia(document.getString("media"));
                 media.setTags((List<Integer>) document.get("tags"));
                 list.add(media);
@@ -123,6 +125,8 @@ public class MediaService {
                     Updates.set("tags", input.tags));
             getCollection().findOneAndUpdate(query,
                     Updates.set("content-type", input.media.contentType()));
+            getCollection().findOneAndUpdate(query,
+                    Updates.set("media-name", input.media.fileName()));
             return RestResponse.status(200);
         } catch (IOException e) {
             return RestResponse.status(400);

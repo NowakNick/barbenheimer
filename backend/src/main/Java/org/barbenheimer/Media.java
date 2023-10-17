@@ -9,17 +9,19 @@ public class Media {
     private String name;
     private String date;
     private String contentType;
+    private String mediaName;
     private String media;
     private List<Integer> tags;
 
     public Media() {
     }
 
-    public Media(String name, String date, String media, String contentType) {
+    public Media(String name, String date, String media, String contentType, String mediaName) {
         this.name = name;
         this.date = date;
         this.media = media;
         this.contentType = contentType;
+        this.mediaName = mediaName;
     }
 
     public String getName() {
@@ -44,6 +46,14 @@ public class Media {
 
     public void setContentType(String contentType) {
         this.contentType = contentType;
+    }
+
+    public String getMediaName() {
+        return mediaName;
+    }
+
+    public void setMediaName(String mediaName) {
+        this.mediaName = mediaName;
     }
 
     @Override
