@@ -91,7 +91,7 @@ public class MediaService {
         try {
             BasicDBObject query = new BasicDBObject();
             query.put("_id", new ObjectId(id));
-            getCollection().findOneAndDelete(Filters.eq("id", query));
+            getCollection().findOneAndDelete(query);
             return RestResponse.status(200);
         } catch (Exception e) {
             return RestResponse.status(400);
@@ -113,20 +113,15 @@ public class MediaService {
             } else {
                 return RestResponse.status(400);
             }
-            getCollection().findOneAndUpdate(Filters.eq(
-                    "id", query),
+            getCollection().findOneAndUpdate(query,
                     Updates.set("name", input.name));
-            getCollection().findOneAndUpdate(Filters.eq(
-                    "id", query),
+            getCollection().findOneAndUpdate(query,
                     Updates.set("media", encodedString));
-            getCollection().findOneAndUpdate(Filters.eq(
-                    "id", query),
+            getCollection().findOneAndUpdate(query,
                     Updates.set("date", input.date));
-            getCollection().findOneAndUpdate(Filters.eq(
-                    "id", query),
+            getCollection().findOneAndUpdate(query,
                     Updates.set("tags", input.tags));
-            getCollection().findOneAndUpdate(Filters.eq(
-                    "id", query),
+            getCollection().findOneAndUpdate(query,
                     Updates.set("content-type", input.media.contentType()));
             return RestResponse.status(200);
         } catch (IOException e) {
