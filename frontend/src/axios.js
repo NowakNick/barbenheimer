@@ -31,10 +31,7 @@ export const addMedia = async (formData) => {
 
 // Delete media
 export const deleteMedia = async (id) => {
-  const res = await axios.delete(
-    baseURL + (dev ? "/media/" : "/deleteMedia/") + id
-  );
-  return res.data;
+  return await axios.delete(baseURL + (dev ? "/media/" : "/deleteMedia/") + id);
 };
 
 // Update media
