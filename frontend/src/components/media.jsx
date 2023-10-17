@@ -1,11 +1,22 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+//import { NavLink } from "react-router-dom";
 import { deleteMedia } from "../axios";
 import { useNavigate } from "react-router-dom";
 
 export default function Media(props) {
   const navigate = useNavigate();
   const [alert, setAlert] = useState(false);
+  const [imageName] = useState(() => {
+    if (props.data.contentType.includes("image")) {
+      return "image-placeholder.jpg";
+    } else if (props.data.contentType.includes("video")) {
+      return "video-placeholder.jpg";
+    } else if (props.data.contentType.includes("text")) {
+      return "text-placeholder.png";
+    } else {
+      return "others-placeholder.jpg";
+    }
+  });
 
   const onDelete = async () => {
     await deleteMedia(props.data.id)
@@ -54,9 +65,9 @@ export default function Media(props) {
     <div className="media-item col-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
       <div className="card">
         <img
-          src="/assets/test-image-1.png" //TODO: dynamic image
-          className="card-img-top"
-          alt={props.data.name}
+          src={"/assets/" + imageName}
+          className="card-img-top custom-image img-thumbnail"
+          alt={props.data.mediaName}
         />
         <div className="card-body">
           <h5 className="card-title">{props.data.name}</h5>

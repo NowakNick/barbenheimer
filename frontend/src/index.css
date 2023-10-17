@@ -2,3 +2,8 @@
   display: flex;
   align-items: center; /* Vertically center items */
 }
+
+.custom-image {
+  object-fit: scale-down;
+  max-height: 220px;
+}
