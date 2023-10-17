@@ -36,10 +36,9 @@ export default function Create() {
       formData.append("name", name);
       formData.append("media", media);
       formData.append("date", new Date().toString());
-      formData.append(
-        "tags",
-        tags.map((item) => parseInt(item.value, 10))
-      );
+      tags.forEach((item) => {
+        formData.append("tags", parseInt(item.value, 10));
+      });
 
       if (await addMedia(formData)) {
         console.log("Upload Done!");
