@@ -2,6 +2,7 @@ import React, { useState } from "react";
 //import { NavLink } from "react-router-dom";
 import { deleteMedia } from "../axios";
 import { useNavigate } from "react-router-dom";
+import { tagOptions } from "../views/Create";
 
 export default function Media(props) {
   const navigate = useNavigate();
@@ -60,6 +61,28 @@ export default function Media(props) {
     // Remove resource afterwards
     URL.revokeObjectURL(url);
   }
+  const getTag = (item) => {
+    const selectedOption = tagOptions.find(
+      (option) => option.value === "" + item
+    );
+
+    if (selectedOption) {
+      return selectedOption.label;
+    } else {
+      return "Tags undefinded";
+    }
+  };
+
+  const generateTags = (tags) => {
+    let labels = "";
+    tags.forEach((item) => {
+      if (labels !== "") {
+        labels = labels + ", ";
+      }
+      labels = labels + getTag(item);
+    });
+    return labels;
+  };
 
   return (
     <div className="media-item col-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
@@ -71,7 +94,7 @@ export default function Media(props) {
         />
         <div className="card-body">
           <h5 className="card-title">{props.data.name}</h5>
-          <p className="card-text">{props.data.type}</p>
+          <p className="card-text">Tags: {generateTags(props.data.tags)}</p>
           <div className="d-grid gap-2 d-flex justify-content-between">
             {/* <NavLink
               className="btn btn-primary px-3"

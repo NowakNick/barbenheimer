@@ -4,16 +4,16 @@ import Select from "react-select";
 import { addMedia } from "../axios";
 import { useNavigate } from "react-router-dom";
 
+export const tagOptions = [
+  { value: "1", label: "Hobby" },
+  { value: "2", label: "Work" },
+  { value: "3", label: "Family" },
+  { value: "4", label: "Private" },
+  { value: "5", label: "Others" },
+];
+
 export default function Create() {
   const navigate = useNavigate();
-
-  const tagOptions = [
-    { value: "1", label: "Hobby" },
-    { value: "2", label: "Work" },
-    { value: "3", label: "Family" },
-    { value: "4", label: "Private" },
-    { value: "5", label: "Others" },
-  ];
 
   const [alert, setAlert] = useState({ isVisible: false, msg: "" });
   const [name, setName] = useState("");
