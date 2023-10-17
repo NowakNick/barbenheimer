@@ -100,6 +100,8 @@ public class MediaService {
 
     public RestResponse updateMedia(String id, FileUploadInput input) {
         try {
+            BasicDBObject query = new BasicDBObject();
+            query.put("_id", new ObjectId(id));
             String encodedString;
             if (input.media != null) {
                 File file = new File(input.media.filePath().toString());
@@ -112,19 +114,19 @@ public class MediaService {
                 return RestResponse.status(400);
             }
             getCollection().findOneAndUpdate(Filters.eq(
-                    "id", id),
+                    "id", query),
                     Updates.set("name", input.name));
             getCollection().findOneAndUpdate(Filters.eq(
-                    "id", id),
+                    "id", query),
                     Updates.set("media", encodedString));
             getCollection().findOneAndUpdate(Filters.eq(
-                    "id", id),
+                    "id", query),
                     Updates.set("date", input.date));
             getCollection().findOneAndUpdate(Filters.eq(
-                    "id", id),
+                    "id", query),
                     Updates.set("tags", input.tags));
             getCollection().findOneAndUpdate(Filters.eq(
-                    "id", id),
+                    "id", query),
                     Updates.set("content-type", input.media.contentType()));
             return RestResponse.status(200);
         } catch (IOException e) {
