@@ -7,7 +7,13 @@ const dev = false; // false -> uses backend calls, true -> uses json-server call
 
 // Get all medias
 export const getMedia = async () => {
-  const res = await axios.get(baseURL + (dev ? "/media" : "/getMedia"));
+  const res = await axios
+    .get(baseURL + (dev ? "/media" : "/getMedia"))
+    .catch((error) => {
+      return {
+        data: [],
+      };
+    });
   return res.data;
 };
 
