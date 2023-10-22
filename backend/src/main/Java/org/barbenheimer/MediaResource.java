@@ -1,18 +1,31 @@
 package org.barbenheimer;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
+import org.jboss.logging.Logger;
 import org.jboss.resteasy.reactive.RestResponse;
 
 import java.io.IOException;
 import java.util.List;
 
 @Path("")
+@RegisterForReflection
 public class MediaResource {
+
+    private static final Logger LOG = Logger.getLogger(MediaResource.class);
 
     @Inject
     MediaService mediaService;
+
+    @GET
+    @Path("test")
+    public String getTest() {
+        LOG.info("test");
+        System.out.println("helloworld");
+        return "hello world";
+    }
 
     @POST
     @Path("addMedia")
