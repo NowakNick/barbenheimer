@@ -49,4 +49,3 @@ If you want to learn more about building native executables, please consult http
 
 ## Related Guides
 
-- MongoDB client ([guide](https://quarkus.io/guides/mongodb)): Connect to MongoDB in either imperative or reactive style

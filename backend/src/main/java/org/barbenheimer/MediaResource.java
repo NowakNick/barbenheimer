@@ -22,7 +22,7 @@ public class MediaResource {
     @GET
     @Path("test")
     public String getTest() {
-        LOG.info("test");
+        LOG.info("tesst");
         System.out.println("helloworld");
         return "hello world";
     }
