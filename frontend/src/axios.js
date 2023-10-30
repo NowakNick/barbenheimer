@@ -2,7 +2,7 @@ import axios from "axios";
 // TODO: add error handelers
 // TODO: change paths if needed
 
-const baseURL = "http://34.159.23.185:8081";
+const baseURL = process.env.REACT_APP_BACKEND_URL;
 const dev = false; // false -> uses backend calls, true -> uses json-server calls
 
 // Get all medias
