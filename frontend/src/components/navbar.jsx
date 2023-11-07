@@ -15,7 +15,9 @@ class Navbar extends Component {
               height="24"
               className="d-inline-block me-2"
             />
-            <span className="align-text-top">Barbenheimer</span>
+            <span className="align-text-top">
+              Barbenheimer ({process.env.REACT_APP_BACKEND_URL})
+            </span>
           </NavLink>
         </div>
       </nav>
