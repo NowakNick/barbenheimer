@@ -1,7 +1,10 @@
 package org.barbenheimer;
 
 import com.google.cloud.storage.*;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import jakarta.inject.Inject;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
 import org.jboss.resteasy.reactive.RestResponse;
 
 import java.nio.file.Files;
@@ -11,16 +14,19 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-
+@Path("/storage")
+@RegisterForReflection
 public class GSCResource {
 
     @Inject
     Storage storage;
 
-    public RestResponse uploadFileToGCS(String bucketName, String localFilePath, String gcsFileName){
+    @POST
+    @Path("test")
+    public RestResponse uploadFileToGCS(FileUploadInput input){
         try{
-            Bucket bucket = storage.get(bucketName);
-            bucket.create(gcsFileName, Files.readAllBytes(Paths.get(localFilePath)));
+            Bucket bucket = storage.get("barbenheimer");
+            bucket.create(input.name, Files.readAllBytes(Paths.get(input.media.filePath().toString())));
             return RestResponse.status(200);
         }catch (Exception e){
             return RestResponse.status(404);
