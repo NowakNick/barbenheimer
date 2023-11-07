@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 
-public class StorageResource {
+public class GSCResource {
 
     @Inject
     Storage storage;
