@@ -23,6 +23,8 @@ import java.util.List;
 public class MediaService {
     @Inject
     MongoClient mongoClient;
+    @Inject
+    GSCService gscService;
 
     public List<Media> getMedia() {
         List<Media> list = new ArrayList<>();
@@ -46,12 +48,7 @@ public class MediaService {
     public RestResponse addMedia(FileUploadInput input) throws IOException {
         String encodedString;
         if (input.media != null) {
-            File file = new File(input.media.filePath().toString());
-            FileInputStream fl = new FileInputStream(file);
-            byte[] arr = new byte[(int) file.length()];
-            fl.read(arr);
-            fl.close();
-            encodedString = Base64.getEncoder().encodeToString(arr);
+            gscService.uploadFileToGCS(input);
         } else {
             return RestResponse.status(400);
         }
@@ -59,7 +56,6 @@ public class MediaService {
         Document document = new Document()
                 .append("name", input.name)
                 .append("date", input.date)
-                .append("media", encodedString)
                 .append("content-type", input.media.contentType())
                 .append("media-name", input.media.fileName())
                 .append("tags", input.tags);
