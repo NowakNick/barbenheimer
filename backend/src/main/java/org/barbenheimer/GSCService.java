@@ -10,8 +10,6 @@ import org.jboss.resteasy.reactive.RestResponse;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-
-
 @Path("/storage")
 @RegisterForReflection
 public class GSCService {
@@ -19,17 +17,17 @@ public class GSCService {
     @Inject
     Storage storage;
 
-
-    public RestResponse uploadFileToGCS(FileUploadInput input){
-        try{
+    public Boolean uploadFileToGCS(FileUploadInput input) {
+        try {
             Bucket bucket = storage.get("barbenheimer");
             bucket.create(input.name, Files.readAllBytes(Paths.get(input.media.filePath().toString())));
-            return RestResponse.ok();
-        }catch (Exception e){
-            return RestResponse.status(404);
+            return true;
+        } catch (Exception e) {
+            return false;
         }
 
     }
+
     @GET
     @Path("test/{fileName}")
     public byte[] getSingleFileFromGCS(String fileName) {

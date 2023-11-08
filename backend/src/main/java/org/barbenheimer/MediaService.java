@@ -22,31 +22,37 @@ public class MediaService {
     @Inject
     GSCService gscService;
 
-    public List<Media> getMedia() {
-        List<Media> list = new ArrayList<>();
-        MongoCursor<Document> cursor = getCollection().find().iterator();
-
-        createDocumentList(cursor, list);
-        return list;
+    public RestResponse<List<Media>> getMedia() {
+        try {
+            List<Media> list = new ArrayList<>();
+            MongoCursor<Document> cursor = getCollection().find().iterator();
+            createDocumentList(cursor, list);
+            return RestResponse.ok(list);
+        } catch (Exception e) {
+            return RestResponse.status(400, "Getting all documents failed.");
+        }
     }
 
-    public List<Media> getSingleMedia(String id) {
-        BasicDBObject query = new BasicDBObject();
-        query.put("_id", new ObjectId(id));
-        List<Media> list = new ArrayList<>();
-        MongoCursor<Document> cursor = getCollection().find(query).iterator();
-
-        createDocumentList(cursor, list);
-
-        return list;
+    public RestResponse<List<Media>> getSingleMedia(String id) {
+        try {
+            BasicDBObject query = new BasicDBObject();
+            query.put("_id", new ObjectId(id));
+            List<Media> list = new ArrayList<>();
+            MongoCursor<Document> cursor = getCollection().find(query).iterator();
+            createDocumentList(cursor, list);
+            return RestResponse.ok(list);
+        } catch (Exception e) {
+            return RestResponse.status(400, "Getting single document failed.");
+        }
     }
 
-    public RestResponse addMedia(FileUploadInput input){
-        String encodedString;
+    public RestResponse addMedia(FileUploadInput input) {
         if (input.media != null) {
-            gscService.uploadFileToGCS(input);
-        } else {
-            return RestResponse.status(400);
+            return RestResponse.status(400, "Uploaded File is null.");
+        }
+
+        if (!gscService.uploadFileToGCS(input)) {
+            return RestResponse.status(400, "Upload file to GCS failed.");
         }
 
         Document document = new Document()
@@ -55,8 +61,21 @@ public class MediaService {
                 .append("content-type", input.media.contentType())
                 .append("media-name", input.media.fileName())
                 .append("tags", input.tags);
-        InsertOneResult insertId = getCollection().insertOne(document);
-        document.append("id", insertId.getInsertedId().asObjectId().getValue().toString());
+
+        try {
+            InsertOneResult insertId = getCollection().insertOne(document);
+            document.append("id", insertId.getInsertedId().asObjectId().getValue().toString());
+        } catch (Exception e) {
+            try {
+                BasicDBObject query = new BasicDBObject();
+                query.put("_id", new ObjectId(input.name));
+                gscService.deleteFileFromGCS(getSingleMedia(input.name).get(0).getName());
+            } catch (Exception e2) {
+                return RestResponse.status(400,
+                        "Inerst into Mongo failed, but after that the delete of the file from gcs also faild.");
+            }
+            return RestResponse.status(400, "Insert into Mongo failed");
+        }
 
         return RestResponse.ok(document);
     }
@@ -85,11 +104,20 @@ public class MediaService {
             BasicDBObject query = new BasicDBObject();
             query.put("_id", new ObjectId(id));
             gscService.deleteFileFromGCS(getSingleMedia(id).get(0).getName());
-            getCollection().findOneAndDelete(query);
-            return RestResponse.status(200);
         } catch (Exception e) {
-            return RestResponse.status(400);
+            return RestResponse.status(400, "Delete of media in gcs failed.");
         }
+
+        try {
+            BasicDBObject query = new BasicDBObject();
+            query.put("_id", new ObjectId(id));
+            getCollection().findOneAndDelete(query);
+        } catch (Exception e) {
+            return RestResponse.status(400, "Delete of media from mongo failed.");
+        }
+
+        return RestResponse.ok();
+
     }
 
     private MongoCollection getCollection() {

@@ -36,21 +36,19 @@ public class MediaResource {
 
     @GET
     @Path("getMedia")
-    public List<Media> getMedia() {
+    public RestResponse<List<Media>> getMedia() {
         return mediaService.getMedia();
     }
 
     @GET
     @Path("getSingleMedia/{id}")
-    public List<Media> getSingleMedia(String id) {
+    public RestResponse<List<Media>> getSingleMedia(String id) {
         return mediaService.getSingleMedia(id);
     }
 
     @DELETE
     @Path("deleteMedia/{id}")
-    public RestResponse deleteMedia(String id){
+    public RestResponse deleteMedia(String id) {
         return mediaService.deleteMedia(id);
     }
 }
-
-
