@@ -32,11 +32,10 @@ public class GSCService {
     }
     @GET
     @Path("test/{fileName}")
-    public String getSingleFileFromGCS(String fileName) {
+    public byte[] getSingleFileFromGCS(String fileName) {
         Blob blob = storage.get(BlobId.of("barbenheimer", fileName));
         if (blob != null) {
-            String fileContent = blob.getContent().toString();
-            return fileContent;
+            return blob.getContent();
         } else {
             return null;
         }

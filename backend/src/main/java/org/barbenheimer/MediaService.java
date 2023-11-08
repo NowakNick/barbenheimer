@@ -71,7 +71,7 @@ public class MediaService {
                 media.setDate(document.getString("date"));
                 media.setContentType(document.getString("content-type"));
                 media.setMediaName(document.getString("media-name"));
-                media.setMedia(gscService.getSingleFileFromGCS(document.getString("name")));
+                media.setMedia(gscService.getSingleFileFromGCS(document.getString("name")).toString());
                 media.setTags((List<Integer>) document.get("tags"));
                 list.add(media);
             }
