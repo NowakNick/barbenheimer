@@ -96,39 +96,6 @@ public class MediaService {
         }
     }
 
-    public RestResponse updateMedia(String id, FileUploadInput input) {
-        try {
-            BasicDBObject query = new BasicDBObject();
-            query.put("_id", new ObjectId(id));
-            String encodedString;
-            if (input.media != null) {
-                File file = new File(input.media.filePath().toString());
-                FileInputStream fl = new FileInputStream(file);
-                byte[] arr = new byte[(int) file.length()];
-                fl.read(arr);
-                fl.close();
-                encodedString = Base64.getEncoder().encodeToString(arr);
-            } else {
-                return RestResponse.status(400);
-            }
-            getCollection().findOneAndUpdate(query,
-                    Updates.set("name", input.name));
-            getCollection().findOneAndUpdate(query,
-                    Updates.set("media", encodedString));
-            getCollection().findOneAndUpdate(query,
-                    Updates.set("date", input.date));
-            getCollection().findOneAndUpdate(query,
-                    Updates.set("tags", input.tags));
-            getCollection().findOneAndUpdate(query,
-                    Updates.set("content-type", input.media.contentType()));
-            getCollection().findOneAndUpdate(query,
-                    Updates.set("media-name", input.media.fileName()));
-            return RestResponse.status(200);
-        } catch (IOException e) {
-            return RestResponse.status(400);
-        }
-    }
-
     private MongoCollection getCollection() {
         return mongoClient.getDatabase("media").getCollection("media");
     }
