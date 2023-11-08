@@ -3,7 +3,6 @@ package org.barbenheimer;
 import com.google.cloud.storage.*;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import org.jboss.resteasy.reactive.RestResponse;
@@ -42,8 +41,6 @@ public class GSCService {
         }
     }
 
-    @DELETE
-    @Path("test/{fileName}")
     public RestResponse deleteFileFromGCS(String fileName) {
         BlobId blobId = BlobId.of("barbenheimer", fileName);
         boolean deleted = storage.delete(blobId);

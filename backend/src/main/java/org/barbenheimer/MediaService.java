@@ -88,6 +88,7 @@ public class MediaService {
         try {
             BasicDBObject query = new BasicDBObject();
             query.put("_id", new ObjectId(id));
+            gscService.deleteFileFromGCS(getSingleMedia(id).get(0).getName());
             getCollection().findOneAndDelete(query);
             return RestResponse.status(200);
         } catch (Exception e) {
