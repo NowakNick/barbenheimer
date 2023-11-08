@@ -24,7 +24,7 @@ public class GSCService {
         try{
             Bucket bucket = storage.get("barbenheimer");
             bucket.create(input.name, Files.readAllBytes(Paths.get(input.media.filePath().toString())));
-            return RestResponse.status(200);
+            return RestResponse.ok();
         }catch (Exception e){
             return RestResponse.status(404);
         }
@@ -35,7 +35,8 @@ public class GSCService {
     public String getSingleFileFromGCS(String fileName) {
         Blob blob = storage.get(BlobId.of("barbenheimer", fileName));
         if (blob != null) {
-            return "blob.signUrl(15, TimeUnit,Storage.SignUrlOption.withV4Signature()).toString();";
+            String fileContent = blob.getContent().toString();
+            return fileContent;
         } else {
             return null;
         }
@@ -45,7 +46,7 @@ public class GSCService {
         BlobId blobId = BlobId.of("barbenheimer", fileName);
         boolean deleted = storage.delete(blobId);
         if (deleted) {
-            return RestResponse.status(200);
+            return RestResponse.ok();
         } else {
             return RestResponse.status(404);
         }

@@ -4,7 +4,6 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
-import com.mongodb.client.model.Updates;
 import com.mongodb.client.result.InsertOneResult;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -12,11 +11,8 @@ import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.jboss.resteasy.reactive.RestResponse;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 
 @ApplicationScoped
@@ -45,7 +41,7 @@ public class MediaService {
         return list;
     }
 
-    public RestResponse addMedia(FileUploadInput input) throws IOException {
+    public RestResponse addMedia(FileUploadInput input){
         String encodedString;
         if (input.media != null) {
             gscService.uploadFileToGCS(input);
@@ -75,7 +71,7 @@ public class MediaService {
                 media.setDate(document.getString("date"));
                 media.setContentType(document.getString("content-type"));
                 media.setMediaName(document.getString("media-name"));
-                media.setMedia(document.getString("media"));
+                media.setMedia(gscService.getSingleFileFromGCS(document.getString("name")));
                 media.setTags((List<Integer>) document.get("tags"));
                 list.add(media);
             }
