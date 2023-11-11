@@ -31,14 +31,8 @@ public class MediaResource {
     @POST
     @Path("addMedia")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public RestResponse addMedia(FileUploadInput input) throws IOException {
+    public RestResponse addMedia(FileUploadInput input) throws IOException, ExecutionException, InterruptedException {
         return mediaService.addMedia(input);
-    }
-
-    @GET
-    @Path("getMediaAlt")
-    public List<Media> getMedia() {
-        return mediaService.getMedia();
     }
 
     @GET
@@ -49,7 +43,7 @@ public class MediaResource {
 
     @GET
     @Path("getSingleMedia/{id}")
-    public List<Media> getSingleMedia(String id) {
+    public List<Media> getSingleMedia(String id) throws ExecutionException, InterruptedException {
         return mediaService.getSingleMedia(id);
     }
 
