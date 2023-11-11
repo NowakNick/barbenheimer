@@ -11,7 +11,7 @@ public class Media {
     private String contentType;
     private String mediaName;
     private String media;
-    private List<Integer> tags;
+    private List<Long> tags;
 
     public Media() {
     }
@@ -88,11 +88,11 @@ public class Media {
         this.media = media;
     }
 
-    public List<Integer> getTags() {
+    public List<Long> getTags() {
         return tags;
     }
 
-    public void setTags(List<Integer> tags) {
+    public void setTags(List<Long> tags) {
         this.tags = tags;
     }
 }

@@ -1,6 +1,6 @@
 package org.barbenheimer;
 
-//Mongo Dependencies
+import com.google.cloud.firestore.*;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
@@ -12,19 +12,48 @@ import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.jboss.resteasy.reactive.RestResponse;
 
-
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @ApplicationScoped
 public class MediaService {
 
+    @Inject
+    Firestore firestore;
     //MongoDB
     @Inject
     MongoClient mongoClient;
     @Inject
     GSCService gscService;
+
+    public List<Media> getFirestoreMedia() throws ExecutionException, InterruptedException {
+        CollectionReference mediaCollection = firestore.collection("barbenheimer");
+        QuerySnapshot querySnapshot2 = mediaCollection.get().get();
+        List<Media> list = new ArrayList<>();
+
+        for (QueryDocumentSnapshot document : querySnapshot2.getDocuments()) {
+            Media media = documentToMedia(document);
+            list.add(media);
+        }
+        return list;
+    }
+
+
+
+    private Media documentToMedia(DocumentSnapshot document) {
+        Media media = new Media();
+        String imgString = Base64.getEncoder().encodeToString(gscService.getSingleFileFromGCS(document.getString("name")));
+        media.setId(document.getId());
+        media.setName(document.getString("name"));
+        media.setDate(document.getString("date"));
+        media.setContentType(document.getString("content-type"));
+        media.setMediaName(document.getString("media-name"));
+        media.setMedia(imgString);
+        media.setTags((List<Long>) document.get("tags"));
+        return media;
+    }
 
     public List<Media> getMedia() {
         List<Media> list = new ArrayList<>();
@@ -81,7 +110,7 @@ public class MediaService {
                 media.setContentType(document.getString("content-type"));
                 media.setMediaName(document.getString("media-name"));
                 media.setMedia(imgString);
-                media.setTags((List<Integer>) document.get("tags"));
+                media.setTags((List<Long>) document.get("tags"));
                 list.add(media);
             }
         } finally {
