@@ -13,6 +13,7 @@ import org.jboss.resteasy.reactive.RestResponse;
 
 
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 @ApplicationScoped
@@ -66,12 +67,13 @@ public class MediaService {
             while (cursor.hasNext()) {
                 Document document = cursor.next();
                 Media media = new Media();
+                String imgString = Base64.getEncoder().encodeToString(gscService.getSingleFileFromGCS(document.getString("name")));
                 media.setName(document.getString("name"));
                 media.setId(document.get("_id").toString());
                 media.setDate(document.getString("date"));
                 media.setContentType(document.getString("content-type"));
                 media.setMediaName(document.getString("media-name"));
-                media.setMedia(gscService.getSingleFileFromGCS(document.getString("name")).toString());
+                media.setMedia(imgString);
                 media.setTags((List<Integer>) document.get("tags"));
                 list.add(media);
             }
