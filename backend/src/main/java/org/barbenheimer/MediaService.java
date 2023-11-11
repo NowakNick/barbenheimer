@@ -1,5 +1,6 @@
 package org.barbenheimer;
 
+//Mongo Dependencies
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
@@ -18,6 +19,8 @@ import java.util.List;
 
 @ApplicationScoped
 public class MediaService {
+
+    //MongoDB
     @Inject
     MongoClient mongoClient;
     @Inject
@@ -25,6 +28,7 @@ public class MediaService {
 
     public List<Media> getMedia() {
         List<Media> list = new ArrayList<>();
+        //MongoDB
         MongoCursor<Document> cursor = getCollection().find().iterator();
 
         createDocumentList(cursor, list);
@@ -32,9 +36,11 @@ public class MediaService {
     }
 
     public List<Media> getSingleMedia(String id) {
+        //MongoDB
         BasicDBObject query = new BasicDBObject();
         query.put("_id", new ObjectId(id));
         List<Media> list = new ArrayList<>();
+        //MongoDB
         MongoCursor<Document> cursor = getCollection().find(query).iterator();
 
         createDocumentList(cursor, list);
@@ -56,6 +62,7 @@ public class MediaService {
                 .append("content-type", input.media.contentType())
                 .append("media-name", input.media.fileName())
                 .append("tags", input.tags);
+        //MongoDB
         InsertOneResult insertId = getCollection().insertOne(document);
         document.append("id", insertId.getInsertedId().asObjectId().getValue().toString());
 
@@ -84,6 +91,7 @@ public class MediaService {
 
     public RestResponse deleteMedia(String id) {
         try {
+            //MongoDB
             BasicDBObject query = new BasicDBObject();
             query.put("_id", new ObjectId(id));
             gscService.deleteFileFromGCS(getSingleMedia(id).get(0).getName());
@@ -94,6 +102,7 @@ public class MediaService {
         }
     }
 
+    //MongoDB
     private MongoCollection getCollection() {
         return mongoClient.getDatabase("media").getCollection("media");
     }
